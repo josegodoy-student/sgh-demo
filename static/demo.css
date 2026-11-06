@@ -1,0 +1,5 @@
+#demo-banner{position:sticky;top:0;z-index:50;background:#0f172a;color:#e2e8f0;font:500 12px/1.2 Montserrat,system-ui,sans-serif;display:flex;gap:12px;align-items:center;justify-content:center;padding:8px 12px;text-align:center}
+#demo-banner b{color:#fbbf24}
+#demo-banner a{color:#7dd3fc;text-decoration:underline}
+#demo-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:10px 16px;border-radius:10px;font:500 13px Montserrat,system-ui,sans-serif;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw;text-align:center}
+#demo-toast.on{opacity:1;transform:translateX(-50%)}

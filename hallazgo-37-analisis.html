@@ -1,0 +1,128 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Análisis — REC-2026-006</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23004AAD%27/%3E%3Cpath d=%27M9 17l5 5 9-12%27 stroke=%27white%27 stroke-width=%274%27 fill=%27none%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/tailwind.css">
+  
+  <script>
+    // Sidebar colapsable: el estado vive en <html> (no lo pisa hx-boost) y en localStorage.
+    (function () {
+      function apply() {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        document.documentElement.classList.toggle('sidebar-collapsed', c);
+      }
+      window.toggleSidebar = function () {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        localStorage.setItem('sidebarCollapsed', c ? '0' : '1');
+        apply();
+      };
+      apply(); // aplicar antes de pintar para evitar parpadeo
+      document.addEventListener('DOMContentLoaded', apply);
+    })();
+  </script>
+<link rel="stylesheet" href="static/demo.css"><script src="static/demo.js" defer></script></head>
+
+<body data-demo="1" class="bg-slate-50 text-slate-800 min-h-screen font-sans">
+  <div class="flex min-h-screen">
+
+    
+    <aside id="app-sidebar" class="hidden md:flex md:flex-col w-60 bg-brand-primary text-white shrink-0">
+      <div class="sidebar-header px-4 py-4 border-b border-white/10 flex items-center justify-between gap-2">
+        <a href="inicio.html" class="min-w-0">
+          <span class="sgh-mark sidebar-logo-full h-12 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span>
+        </a>
+        <button type="button" onclick="toggleSidebar()" aria-label="Colapsar o expandir el menú"
+                class="sidebar-toggle shrink-0 text-white/70 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 px-3 py-4 space-y-1 text-sm font-medium">
+        <a href="inicio.html" title="Inicio" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h4v-6h6v6h4V9.5"/></svg>
+          <span class="sidebar-label">Inicio</span>
+        </a>
+        <a href="dashboard.html" title="Dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="hallazgos.html" title="Hallazgos" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition bg-white/15">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M9 4h6M9 4a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v0a2 2 0 0 0-2-2M7 6H5v14h14V6h-2M9 12h6M9 16h4"/></svg>
+          <span class="sidebar-label">Hallazgos</span>
+        </a>
+        
+      </nav>
+      <div class="sidebar-logout px-3 py-4 border-t border-white/10 space-y-2">
+        <div class="sidebar-profile px-3 text-xs text-white/60 truncate" title="calidad.demo@example.test">
+          <span class="sidebar-label">Valentina Ríos</span>
+        </div>
+        <form method="post" action="#" data-disabled="1">
+          
+          <button type="submit" title="Salir" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M15 12H3m0 0 4-4m-4 4 4 4M13 4h6v16h-6"/></svg>
+            <span class="sidebar-label">Salir</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    
+    <div class="flex-1 flex flex-col min-w-0">
+      
+      <header class="md:hidden bg-brand-primary text-white flex items-center justify-between px-4 h-14">
+        <a href="inicio.html"><span class="sgh-mark h-8 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span></a>
+        <nav class="flex items-center gap-1 text-sm font-medium">
+          <a href="inicio.html" class="px-2 py-1.5 rounded hover:bg-white/10">Inicio</a>
+          <a href="dashboard.html" class="px-2 py-1.5 rounded hover:bg-white/10">Dashboard</a>
+          <a href="hallazgos.html" class="px-2 py-1.5 rounded bg-white/15">Hallazgos</a>
+          
+          <form method="post" action="#" data-disabled="1" class="inline">
+            
+            <button type="submit" class="px-2 py-1.5 rounded hover:bg-white/10">Salir</button>
+          </form>
+        </nav>
+      </header>
+
+      <main class="flex-1 w-full max-w-6xl mx-auto px-4 md:px-8 py-8">
+        
+        <div class="mb-4 space-y-2">
+          
+          <div class="rounded-lg px-4 py-2.5 text-sm border bg-red-50 text-red-700 border-red-200">Solo se clasifica un hallazgo recién registrado.</div>
+          
+        </div>
+        
+        
+<a href="hallazgo-37.html" class="text-sm text-brand-primary hover:underline">← Volver al hallazgo</a>
+<h2 class="mt-3 mb-2 text-2xl font-bold text-brand-indigo">Análisis / Causa raíz</h2>
+<p class="mb-6 text-sm text-slate-500"><span class="font-mono">REC-2026-006</span> — ciclo 1</p>
+<section class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 max-w-2xl">
+  <p class="text-sm text-slate-600 mb-4">Paso independiente de la descripción inicial (5 Porqués u otro método propio de Calidad).</p>
+  <form method="post" class="app-form">
+    
+    <p>
+    <label for="id_root_cause">Análisis / Causa raíz:</label>
+    <textarea name="root_cause" cols="40" rows="5" required id="id_root_cause">
+</textarea>
+    
+    
+      
+    
+  </p>
+    <div class="flex gap-3 mt-2">
+      <button type="submit" class="bg-brand-primary text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-brand-indigo transition">Guardar análisis</button>
+      <a href="hallazgo-37.html" class="text-sm text-slate-500 hover:underline px-2 py-2">Cancelar</a>
+    </div>
+  </form>
+</section>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>

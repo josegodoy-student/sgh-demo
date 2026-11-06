@@ -1,0 +1,376 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REC-2026-006 — Empresa Demo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23004AAD%27/%3E%3Cpath d=%27M9 17l5 5 9-12%27 stroke=%27white%27 stroke-width=%274%27 fill=%27none%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/tailwind.css">
+  
+  <script>
+    // Sidebar colapsable: el estado vive en <html> (no lo pisa hx-boost) y en localStorage.
+    (function () {
+      function apply() {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        document.documentElement.classList.toggle('sidebar-collapsed', c);
+      }
+      window.toggleSidebar = function () {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        localStorage.setItem('sidebarCollapsed', c ? '0' : '1');
+        apply();
+      };
+      apply(); // aplicar antes de pintar para evitar parpadeo
+      document.addEventListener('DOMContentLoaded', apply);
+    })();
+  </script>
+<link rel="stylesheet" href="static/demo.css"><script src="static/demo.js" defer></script></head>
+
+<body data-demo="1" class="bg-slate-50 text-slate-800 min-h-screen font-sans">
+  <div class="flex min-h-screen">
+
+    
+    <aside id="app-sidebar" class="hidden md:flex md:flex-col w-60 bg-brand-primary text-white shrink-0">
+      <div class="sidebar-header px-4 py-4 border-b border-white/10 flex items-center justify-between gap-2">
+        <a href="inicio.html" class="min-w-0">
+          <span class="sgh-mark sidebar-logo-full h-12 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span>
+        </a>
+        <button type="button" onclick="toggleSidebar()" aria-label="Colapsar o expandir el menú"
+                class="sidebar-toggle shrink-0 text-white/70 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 px-3 py-4 space-y-1 text-sm font-medium">
+        <a href="inicio.html" title="Inicio" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h4v-6h6v6h4V9.5"/></svg>
+          <span class="sidebar-label">Inicio</span>
+        </a>
+        <a href="dashboard.html" title="Dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="hallazgos.html" title="Hallazgos" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition bg-white/15">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M9 4h6M9 4a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v0a2 2 0 0 0-2-2M7 6H5v14h14V6h-2M9 12h6M9 16h4"/></svg>
+          <span class="sidebar-label">Hallazgos</span>
+        </a>
+        
+      </nav>
+      <div class="sidebar-logout px-3 py-4 border-t border-white/10 space-y-2">
+        <div class="sidebar-profile px-3 text-xs text-white/60 truncate" title="calidad.demo@example.test">
+          <span class="sidebar-label">Valentina Ríos</span>
+        </div>
+        <form method="post" action="#" data-disabled="1">
+          
+          <button type="submit" title="Salir" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M15 12H3m0 0 4-4m-4 4 4 4M13 4h6v16h-6"/></svg>
+            <span class="sidebar-label">Salir</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    
+    <div class="flex-1 flex flex-col min-w-0">
+      
+      <header class="md:hidden bg-brand-primary text-white flex items-center justify-between px-4 h-14">
+        <a href="inicio.html"><span class="sgh-mark h-8 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span></a>
+        <nav class="flex items-center gap-1 text-sm font-medium">
+          <a href="inicio.html" class="px-2 py-1.5 rounded hover:bg-white/10">Inicio</a>
+          <a href="dashboard.html" class="px-2 py-1.5 rounded hover:bg-white/10">Dashboard</a>
+          <a href="hallazgos.html" class="px-2 py-1.5 rounded bg-white/15">Hallazgos</a>
+          
+          <form method="post" action="#" data-disabled="1" class="inline">
+            
+            <button type="submit" class="px-2 py-1.5 rounded hover:bg-white/10">Salir</button>
+          </form>
+        </nav>
+      </header>
+
+      <main class="flex-1 w-full max-w-6xl mx-auto px-4 md:px-8 py-8">
+        
+        
+
+<a href="hallazgos.html" class="text-sm text-brand-primary hover:underline">← Volver a hallazgos</a>
+
+
+<div class="mt-3 mb-6 flex items-start justify-between gap-4 flex-wrap">
+  <div>
+    <div class="flex items-center gap-3 flex-wrap">
+      <span class="font-mono text-slate-500">REC-2026-006</span>
+      <span class="text-xs font-medium rounded-full px-2.5 py-0.5 bg-red-700 text-white">Crítica</span>
+      <span class="text-xs font-medium rounded-full px-2.5 py-0.5 bg-brand-primary text-white">En análisis</span>
+      
+    </div>
+    <h2 class="mt-2 text-2xl font-bold text-brand-indigo">Cambio de fecha comunicado sin anticipación</h2>
+    <p class="text-sm text-slate-500">Argentina · Reclamo/Queja · Calidad · reportó Mateo Duarte</p>
+  </div>
+  <div class="shrink-0 flex flex-wrap gap-2">
+    
+    <form method="post" action="#" data-disabled="1">
+      
+      <input type="hidden" name="to_status" value="in_progress">
+      <button type="submit" class="bg-brand-primary text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-brand-indigo transition">Pasar a ejecución</button>
+    </form>
+    
+    
+    
+    <a href="hallazgo-37-analisis.html" class="bg-brand-primary text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-brand-indigo transition">Completar análisis</a>
+    
+    
+    
+    <a href="#" data-disabled="1" class="bg-white border border-slate-300 text-slate-600 rounded-lg px-4 py-2 text-sm font-medium hover:bg-slate-50 transition">Editar</a>
+    
+    
+    
+  </div>
+</div>
+
+
+<style>
+  .cmp{display:inline-block;font-size:.72rem;font-weight:600;border-radius:9999px;padding:.1rem .55rem;white-space:nowrap}
+  .cmp-ok{background:#dcfce7;color:#166534}.cmp-warn{background:#fef3c7;color:#92400e}
+  .cmp-bad{background:#fee2e2;color:#991b1b}.cmp-neutral{background:#f1f5f9;color:#475569}
+  #indicadores-hallazgo summary{list-style:none;cursor:pointer}
+  #indicadores-hallazgo summary::-webkit-details-marker{display:none}
+  #indicadores-hallazgo .ind-caret{display:inline-block;transition:transform .15s}
+  #indicadores-hallazgo[open] .ind-caret{transform:rotate(90deg)}
+  #indicadores-hallazgo[open] .ind-chips,#indicadores-hallazgo[open] .ind-ver{display:none}
+  #indicadores-hallazgo:not([open]) .ind-ocultar{display:none}
+  .ind-grid{display:grid;gap:.75rem;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  .ind-tile{border:1px solid #e2e8f0;border-radius:.75rem;padding:.75rem .9rem;background:#fff}
+  .ind-tile .t{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#64748b}
+  .ind-tile .v{font-size:1.5rem;font-weight:800;line-height:1.15;margin-top:.15rem}
+  .ind-tile .n{font-size:.75rem;color:#64748b;margin-top:.2rem}
+  .v-ok{color:#15803d}.v-warn{color:#b45309}.v-bad{color:#dc2626}.v-neutral{color:#394E91}
+  .ind-bar{height:6px;border-radius:4px;background:#e2e8f0;overflow:hidden;min-width:80px}
+  .ind-bar i{display:block;height:100%;border-radius:4px}
+  .b-ok{background:#16a34a}.b-warn{background:#d97706}.b-bad{background:#dc2626}.b-neutral{background:#004AAD}
+</style>
+
+
+<details id="indicadores-hallazgo" class="mb-6 bg-white rounded-xl border border-slate-200 shadow-sm" open>
+  <summary class="px-5 py-3 flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-3 flex-wrap">
+      <span class="text-sm font-semibold text-brand-indigo"><span class="ind-caret">▸</span> Indicadores del hallazgo</span>
+      <span class="ind-chips flex flex-wrap gap-2">
+        <span class="cmp cmp-neutral">Sin acciones</span><span class="cmp cmp-neutral">Sin acciones hechas</span><span class="cmp cmp-ok">Sin reprogramaciones</span><span class="cmp cmp-neutral">16 días abierto</span><span class="cmp cmp-ok">Cierre adm. en 27 d</span>
+      </span>
+    </div>
+    <span class="text-xs font-medium text-brand-primary border border-brand-primary rounded-lg px-3 py-1">
+      <span class="ind-ver">Ver detalle</span><span class="ind-ocultar">Ocultar</span>
+    </span>
+  </summary>
+
+  <div class="px-5 pb-5 pt-1">
+    <div class="ind-grid">
+      
+      <div class="ind-tile">
+        <div class="t">Avance del plan</div>
+        <div class="v v-neutral">0</div>
+        
+        <div class="n">todavía no hay acciones</div>
+      </div>
+      
+      <div class="ind-tile">
+        <div class="t">Acciones en plazo</div>
+        <div class="v v-neutral">—</div>
+        
+        <div class="n">todavía no hay acciones hechas</div>
+      </div>
+      
+      <div class="ind-tile">
+        <div class="t">Reprogramaciones</div>
+        <div class="v v-ok">0</div>
+        
+        <div class="n">ninguna reprogramación</div>
+      </div>
+      
+      <div class="ind-tile">
+        <div class="t">Días abierto</div>
+        <div class="v v-neutral">16 d</div>
+        
+        <div class="n">desde el reporte (21/10)</div>
+      </div>
+      
+      <div class="ind-tile">
+        <div class="t">Cierre administrativo</div>
+        <div class="v v-ok">27 d</div>
+        
+        <div class="n">para el límite (03/12)</div>
+      </div>
+      
+    </div>
+
+    <h4 class="text-sm font-semibold text-slate-700 mt-5 mb-2">Tiempo por etapa
+      <span class="font-normal text-xs text-slate-400">· ciclo 1 · días corridos</span></h4>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="text-slate-500 text-left text-xs">
+          <tr><th class="py-2 pr-3 font-medium">Etapa</th><th class="py-2 pr-3 font-medium">Fechas</th>
+              <th class="py-2 pr-3 font-medium">Días</th><th class="py-2 pr-3 font-medium" style="min-width:140px">Plazo consumido</th>
+              <th class="py-2 font-medium">Estado</th></tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          
+          <tr>
+            <td class="py-2 pr-3 text-slate-700">Reporte → Clasificación</td>
+            <td class="py-2 pr-3 text-slate-500 whitespace-nowrap">21/10 → 22/10</td>
+            <td class="py-2 pr-3 font-semibold text-slate-700">1 d</td>
+            <td class="py-2 pr-3"><span class="text-slate-300">—</span></td>
+            <td class="py-2"><span class="cmp cmp-neutral">Sin plazo propio</span></td>
+          </tr>
+          
+          <tr>
+            <td class="py-2 pr-3 text-slate-700">Clasificación → Plan de acción</td>
+            <td class="py-2 pr-3 text-slate-500 whitespace-nowrap">22/10 → en curso</td>
+            <td class="py-2 pr-3 font-semibold text-slate-700">15 d</td>
+            <td class="py-2 pr-3"><div class="ind-bar"><i class="b-bad" style="width:100%"></i></div></td>
+            <td class="py-2"><span class="cmp cmp-bad">Vencido hace 8 d</span></td>
+          </tr>
+          
+          <tr>
+            <td class="py-2 pr-3 text-slate-700">Plan → Implementación</td>
+            <td class="py-2 pr-3 text-slate-500 whitespace-nowrap">—</td>
+            <td class="py-2 pr-3 font-semibold text-slate-700">—</td>
+            <td class="py-2 pr-3"><span class="text-slate-300">—</span></td>
+            <td class="py-2"><span class="cmp cmp-neutral">Pendiente</span></td>
+          </tr>
+          
+          <tr>
+            <td class="py-2 pr-3 text-slate-700">Implementación → Cierre (observación)</td>
+            <td class="py-2 pr-3 text-slate-500 whitespace-nowrap">—</td>
+            <td class="py-2 pr-3 font-semibold text-slate-700">—</td>
+            <td class="py-2 pr-3"><span class="text-slate-300">—</span></td>
+            <td class="py-2"><span class="cmp cmp-neutral">Pendiente</span></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-slate-400 mt-3">El cumplimiento de cada acción se mide contra su fecha original: reprogramar no lo modifica.</p>
+  </div>
+</details>
+
+
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  
+  <section class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+    <h3 class="text-sm font-semibold text-brand-indigo mb-2">Descripción</h3>
+    <p class="text-sm text-slate-700 whitespace-pre-line">Un cliente reclama que el cambio de fecha de entrega se informó el mismo día.</p>
+    
+  </section>
+
+  
+  <section class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+    <h3 class="text-sm font-semibold text-brand-indigo mb-3">Fechas clave</h3>
+    <dl class="space-y-1.5 text-sm">
+      <div class="flex justify-between"><dt class="text-slate-500">Reporte</dt><dd>2026-10-21</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">Clasificación</dt><dd>2026-10-22</dd></div>
+      
+      <div class="flex justify-between"><dt class="text-slate-500">Plan</dt><dd>2026-10-29</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">Cierre adm.</dt><dd>2026-12-03</dd></div>
+      
+      
+      <div class="flex justify-between"><dt class="text-slate-500">Implementado</dt><dd>—</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">Fin observación</dt><dd>—</dd></div>
+      
+      <div class="flex justify-between"><dt class="text-slate-500">Cierre</dt><dd>—</dd></div>
+    </dl>
+    
+  </section>
+</div>
+
+
+<section class="mt-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+  <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+    <h3 class="text-sm font-semibold text-brand-indigo">Plan de acción</h3>
+    
+    <a href="#" data-disabled="1" class="text-sm font-medium text-brand-primary hover:underline">+ Agregar acción</a>
+    
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-50 text-slate-500 text-left">
+        <tr>
+          <th class="px-4 py-2.5 font-medium">Tipo</th>
+          <th class="px-4 py-2.5 font-medium">Tarea</th>
+          <th class="px-4 py-2.5 font-medium">Responsable</th>
+          <th class="px-4 py-2.5 font-medium">Cumplimiento esperado</th>
+          <th class="px-4 py-2.5 font-medium">Reprogramado a</th>
+          <th class="px-4 py-2.5 font-medium">Cumplimiento real</th>
+          <th class="px-4 py-2.5 font-medium">Estado</th>
+          <th class="px-4 py-2.5 font-medium"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        
+        <tr><td colspan="8" class="px-4 py-6 text-center text-slate-400">Sin acciones cargadas.</td></tr>
+        
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+
+
+
+<section class="mt-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+  <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+    <h3 class="text-sm font-semibold text-brand-indigo">Evidencia</h3>
+    <span class="flex items-center gap-4">
+      
+      <a href="#" data-disabled="1" target="_blank" rel="noopener" title="Abrir la carpeta de este hallazgo en Drive"
+         class="text-slate-400 hover:text-brand-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="inline w-5 h-5"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      </a>
+      
+      <a href="#" data-disabled="1" class="text-sm font-medium text-brand-primary hover:underline">+ Subir evidencia</a>
+      
+    </span>
+  </div>
+  <ul class="divide-y divide-slate-100">
+    
+    <li class="px-5 py-6 text-center text-slate-400 text-sm">Sin evidencia adjunta.</li>
+    
+  </ul>
+</section>
+
+
+
+
+
+<section class="mt-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+  <div class="px-5 py-3 border-b border-slate-200"><h3 class="text-sm font-semibold text-brand-indigo">Historial</h3></div>
+  <ul class="divide-y divide-slate-100">
+    
+    <li class="px-5 py-3 text-sm">
+      <div class="flex items-center justify-between gap-4">
+        <span class="text-slate-700"><span class="text-slate-400">Clasificado →</span> <span class="text-brand-primary font-medium">En análisis</span></span>
+        <span class="text-xs text-slate-400 shrink-0">Valentina Ríos · 24/10 14:18</span>
+      </div>
+      
+      
+    </li>
+    
+    <li class="px-5 py-3 text-sm">
+      <div class="flex items-center justify-between gap-4">
+        <span class="text-slate-700"><span class="text-slate-400">Registrado →</span> <span class="text-brand-primary font-medium">Clasificado</span></span>
+        <span class="text-xs text-slate-400 shrink-0">Valentina Ríos · 22/10 14:18</span>
+      </div>
+      
+      
+    </li>
+    
+  </ul>
+</section>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>

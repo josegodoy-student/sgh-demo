@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Carrusel SGH</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@page{size:1080px 1350px;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:Montserrat,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.s{width:1080px;height:1350px;page-break-after:always;position:relative;overflow:hidden;padding:90px 80px;display:flex;flex-direction:column;background:#f8fafc;color:#0f172a}
+.s.dark{background:linear-gradient(160deg,#0b2a66,#004AAD 60%,#394E91);color:#fff}
+.n{position:absolute;right:60px;top:56px;font-size:22px;font-weight:600;opacity:.5}
+.brand{font-weight:800;letter-spacing:.18em;font-size:24px;opacity:.85}
+h1{font-size:92px;line-height:1.04;margin:30px 0 24px;font-weight:800;letter-spacing:-.025em}
+h2{font-size:62px;line-height:1.08;margin:0 0 28px;font-weight:800;letter-spacing:-.015em;color:#394E91}
+.dark h2{color:#fff}
+p{font-size:36px;line-height:1.45;margin:0 0 24px;color:#334155}
+.dark p{color:#dbe7ff}
+.shot{border-radius:18px;overflow:hidden;box-shadow:0 30px 70px rgba(15,23,42,.35);border:1px solid rgba(148,163,184,.4);background:#fff}
+.shot img{display:block;width:100%}
+.crop img{width:100%;object-fit:cover;object-position:top}
+.list{display:grid;gap:18px;margin-top:10px}
+.list div{background:#fff;border:1px solid #e2e8f0;border-left:8px solid #004AAD;border-radius:14px;padding:30px 34px;font-size:32px;line-height:1.35;color:#334155}
+.list b{display:block;color:#0f172a;font-size:37px;margin-bottom:6px}
+.steps{display:grid;gap:14px;margin-top:6px}
+.steps div{display:flex;align-items:center;gap:24px;font-size:31px;line-height:1.3;padding:22px 28px;border-radius:16px;background:#fff;border:2px solid #e2e8f0;color:#334155}
+.steps b{color:#0f172a;display:block;font-size:35px}
+.steps i{flex:0 0 62px;height:62px;border-radius:50%;background:#004AAD;color:#fff;font-style:normal;font-weight:800;font-size:30px;display:grid;place-items:center}
+.steps .ok i{background:#15803d}
+.foot{margin-top:auto;font-size:26px;color:#64748b}
+.dark .foot{color:#b6c9f5}
+.pill{display:inline-block;background:#fff;color:#004AAD;font-weight:800;padding:22px 40px;border-radius:18px;font-size:34px;margin:6px 0}
+.pill.wa{background:#1fa855;color:#fff}
+.tags{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
+.tags span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:14px 24px;border-radius:99px;font-size:28px;font-weight:600}
+</style></head><body>
+
+<div class="s dark">
+  <span class="brand">SGH · GESTIÓN DE CALIDAD</span>
+  <h1>Cada hallazgo, resuelto de verdad.</h1>
+  <p>Un hallazgo no está resuelto cuando se hizo la acción, sino cuando se comprobó que el problema no volvió.</p>
+  <div class="shot" style="margin-top:auto"><img src="dashboard.png"></div>
+  <div class="foot" style="margin-top:26px">Deslizá y mirá el ciclo completo →</div>
+</div>
+
+<div class="s"><span class="n">2 / 8</span>
+  <h2>¿Qué es un hallazgo?</h2>
+  <p>Cualquier situación del trabajo diario que conviene registrar para corregirla, mejorarla o aprender de ella.</p>
+  <div class="list">
+    <div><b>No conformidad</b>Algo que incumple un requisito.</div>
+    <div><b>Observación</b>Todavía no es un incumplimiento, pero conviene atenderlo.</div>
+    <div><b>Oportunidad de mejora</b>Una idea para hacer mejor lo que ya funciona.</div>
+    <div><b>Reclamo o queja</b>La insatisfacción de un cliente.</div>
+  </div>
+</div>
+
+<div class="s"><span class="n">3 / 8</span>
+  <h2>Su ciclo de vida</h2>
+  <div class="steps">
+    <div><i>1</i><span><b>Se registra</b>Queda constancia de qué pasó.</span></div>
+    <div><i>2</i><span><b>Se clasifica</b>Tipo, gravedad y plazos calculados.</span></div>
+    <div><i>3</i><span><b>Se analiza</b>Se busca la causa de fondo.</span></div>
+    <div><i>4</i><span><b>Se ejecuta el plan</b>Acciones con responsable y evidencia.</span></div>
+    <div><i>5</i><span><b>Se observa</b>Se mira si el problema vuelve.</span></div>
+    <div class="ok"><i>✓</i><span><b>Se cierra… o se reabre</b>Solo si la solución demostró funcionar.</span></div>
+  </div>
+</div>
+
+<div class="s dark"><span class="n">4 / 8</span>
+  <h2>Lo que gana una organización</h2>
+  <div class="list" style="margin-top:10px">
+    <div><b>Cierres que se sostienen</b>Nada se da por resuelto sin comprobarlo.</div>
+    <div><b>Plazos claros y parejos</b>Se calculan según la criticidad.</div>
+    <div><b>Todo queda registrado</b>Historial listo para cualquier auditoría.</div>
+    <div><b>Menos seguimiento manual</b>Avisos ante vencimientos.</div>
+    <div><b>Visión para decidir</b>Indicadores con semáforo.</div>
+  </div>
+</div>
+
+<div class="s"><span class="n">5 / 8</span>
+  <h2>Lo que ve la dirección</h2>
+  <p>Indicadores frente a sus metas y todos los hallazgos por estado, de un vistazo.</p>
+  <div class="shot crop" style="height:700px;margin-top:10px"><img src="dashboard.png"></div>
+  <div class="foot" style="margin-top:26px">Imagen de la demo, con datos ficticios.</div>
+</div>
+
+<div class="s"><span class="n">6 / 8</span>
+  <h2>Cada hallazgo, con su historia</h2>
+  <p>Plan de acción, fechas clave, evidencia, evaluación de eficacia e historial completo.</p>
+  <div class="shot crop" style="height:760px;margin-top:10px"><img src="ficha-observacion.png"></div>
+  <div class="foot" style="margin-top:26px">Imagen de la demo, con datos ficticios.</div>
+</div>
+
+<div class="s dark"><span class="n">7 / 8</span>
+  <h2>Hecho con inteligencia artificial</h2>
+  <p>Lo diseñé y lo programé con ayuda de IA (Claude, de Anthropic), bajo mi dirección y revisión.</p>
+  <p>Eso permitió construir en poco tiempo un sistema completo, con sus reglas de calidad verificadas por pruebas automáticas.</p>
+  <div class="tags">
+    <span>Dirigido y revisado por una persona</span>
+    <span>Reglas verificadas</span>
+    <span>Desarrollo ágil</span>
+    <span>Adaptable</span>
+  </div>
+</div>
+
+<div class="s dark"><span class="n">8 / 8</span>
+  <h2>Probalo, y conversemos</h2>
+  <p>Hay una demo online con datos ficticios para que recorras todo el ciclo. El link está en el primer comentario.</p>
+  <p>Si querés ver cómo se adaptaría a tu organización:</p>
+  <span class="pill wa">WhatsApp +54 9 11 5810-2420</span>
+  <span class="pill">josegodoyortiz98@gmail.com</span>
+  <div class="shot" style="margin-top:auto"><img src="lista.png"></div>
+</div>
+
+</body></html>

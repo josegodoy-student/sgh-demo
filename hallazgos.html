@@ -1,0 +1,948 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hallazgos — Empresa Demo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23004AAD%27/%3E%3Cpath d=%27M9 17l5 5 9-12%27 stroke=%27white%27 stroke-width=%274%27 fill=%27none%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/tailwind.css">
+  
+  <script>
+    // Sidebar colapsable: el estado vive en <html> (no lo pisa hx-boost) y en localStorage.
+    (function () {
+      function apply() {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        document.documentElement.classList.toggle('sidebar-collapsed', c);
+      }
+      window.toggleSidebar = function () {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        localStorage.setItem('sidebarCollapsed', c ? '0' : '1');
+        apply();
+      };
+      apply(); // aplicar antes de pintar para evitar parpadeo
+      document.addEventListener('DOMContentLoaded', apply);
+    })();
+  </script>
+<link rel="stylesheet" href="static/demo.css"><script src="static/demo.js" defer></script></head>
+
+<body data-demo="1" class="bg-slate-50 text-slate-800 min-h-screen font-sans">
+  <div class="flex min-h-screen">
+
+    
+    <aside id="app-sidebar" class="hidden md:flex md:flex-col w-60 bg-brand-primary text-white shrink-0">
+      <div class="sidebar-header px-4 py-4 border-b border-white/10 flex items-center justify-between gap-2">
+        <a href="inicio.html" class="min-w-0">
+          <span class="sgh-mark sidebar-logo-full h-12 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span>
+        </a>
+        <button type="button" onclick="toggleSidebar()" aria-label="Colapsar o expandir el menú"
+                class="sidebar-toggle shrink-0 text-white/70 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 px-3 py-4 space-y-1 text-sm font-medium">
+        <a href="inicio.html" title="Inicio" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h4v-6h6v6h4V9.5"/></svg>
+          <span class="sidebar-label">Inicio</span>
+        </a>
+        <a href="dashboard.html" title="Dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="hallazgos.html" title="Hallazgos" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition bg-white/15">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M9 4h6M9 4a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v0a2 2 0 0 0-2-2M7 6H5v14h14V6h-2M9 12h6M9 16h4"/></svg>
+          <span class="sidebar-label">Hallazgos</span>
+        </a>
+        
+      </nav>
+      <div class="sidebar-logout px-3 py-4 border-t border-white/10 space-y-2">
+        <div class="sidebar-profile px-3 text-xs text-white/60 truncate" title="calidad.demo@example.test">
+          <span class="sidebar-label">Valentina Ríos</span>
+        </div>
+        <form method="post" action="#" data-disabled="1">
+          
+          <button type="submit" title="Salir" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M15 12H3m0 0 4-4m-4 4 4 4M13 4h6v16h-6"/></svg>
+            <span class="sidebar-label">Salir</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    
+    <div class="flex-1 flex flex-col min-w-0">
+      
+      <header class="md:hidden bg-brand-primary text-white flex items-center justify-between px-4 h-14">
+        <a href="inicio.html"><span class="sgh-mark h-8 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span></a>
+        <nav class="flex items-center gap-1 text-sm font-medium">
+          <a href="inicio.html" class="px-2 py-1.5 rounded hover:bg-white/10">Inicio</a>
+          <a href="dashboard.html" class="px-2 py-1.5 rounded hover:bg-white/10">Dashboard</a>
+          <a href="hallazgos.html" class="px-2 py-1.5 rounded bg-white/15">Hallazgos</a>
+          
+          <form method="post" action="#" data-disabled="1" class="inline">
+            
+            <button type="submit" class="px-2 py-1.5 rounded hover:bg-white/10">Salir</button>
+          </form>
+        </nav>
+      </header>
+
+      <main class="flex-1 w-full max-w-6xl mx-auto px-4 md:px-8 py-8">
+        
+        
+
+<div class="mb-6 flex items-start justify-between gap-4">
+  <div>
+    <h2 class="text-2xl font-bold text-brand-indigo">Hallazgos</h2>
+    <p class="text-slate-500">Empresa Demo</p>
+  </div>
+  <a href="hallazgo-nuevo.html" class="shrink-0 bg-brand-primary text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-brand-indigo transition">+ Nuevo hallazgo</a>
+</div>
+
+<section class="bg-white rounded-xl border border-slate-200 shadow-sm">
+  <form method="get" class="flex flex-wrap gap-3 items-end p-4 border-b border-slate-200">
+    <div>
+      <label class="block text-xs text-slate-500 mb-1">Sede</label>
+      <select name="site" class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+        <option value="">Todas</option>
+        
+        <option value="argentina" >Argentina</option>
+        
+        <option value="chile" >Chile</option>
+        
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs text-slate-500 mb-1">Estado</label>
+      <select name="status" class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+        <option value="">Todos</option>
+        
+        <option value="registered" >Registrado</option>
+        
+        <option value="triaged" >Clasificado</option>
+        
+        <option value="analyzing" >En análisis</option>
+        
+        <option value="in_progress" >En ejecución</option>
+        
+        <option value="implemented" >Implementado (en observación)</option>
+        
+        <option value="closed_effective" >Cerrado - eficaz</option>
+        
+        <option value="reopened" >Reabierto</option>
+        
+        <option value="discarded" >Descartado</option>
+        
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs text-slate-500 mb-1">Tipo</label>
+      <select name="type" class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+        <option value="">Todos</option>
+        
+        <option value="non_conformity" >No conformidad</option>
+        
+        <option value="observation" >Observación</option>
+        
+        <option value="improvement" >Oportunidad de mejora</option>
+        
+        <option value="complaint" >Reclamo/Queja</option>
+        
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs text-slate-500 mb-1">Criticidad</label>
+      <select name="severity" class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+        <option value="">Todas</option>
+        
+        <option value="critical" >Crítica</option>
+        
+        <option value="medium" >Media</option>
+        
+        <option value="low" >Baja</option>
+        
+      </select>
+    </div>
+    <button type="submit" class="bg-brand-primary text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-brand-indigo transition">Filtrar</button>
+    <a href="hallazgos.html" class="text-sm text-slate-500 hover:underline px-2 py-2">Limpiar</a>
+  </form>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-50 text-slate-500 text-left">
+        <tr>
+          <th class="px-4 py-3 font-medium">Código</th>
+          <th class="px-4 py-3 font-medium">Título</th>
+          <th class="px-4 py-3 font-medium">Sede</th>
+          <th class="px-4 py-3 font-medium">Tipo</th>
+          <th class="px-4 py-3 font-medium">Criticidad</th>
+          <th class="px-4 py-3 font-medium">Estado</th>
+          <th class="px-4 py-3 font-medium">Reportado</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-37.html" class="font-mono text-brand-primary hover:underline">REC-2026-006</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-37.html" class="text-slate-800 hover:text-brand-primary">Cambio de fecha comunicado sin anticipación</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">Reclamo/Queja</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En análisis</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-21</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-32.html" class="font-mono text-brand-primary hover:underline">REC-2026-005</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-32.html" class="text-slate-800 hover:text-brand-primary">Factura emitida con datos fiscales erróneos</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Reclamo/Queja</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En ejecución</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-04</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-26.html" class="font-mono text-brand-primary hover:underline">REC-2026-004</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-26.html" class="text-slate-800 hover:text-brand-primary">Respuesta tardía a una consulta comercial</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Reclamo/Queja</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-orange-600 text-white">Implementado (en observación)</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-11</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-18.html" class="font-mono text-brand-primary hover:underline">REC-2026-003</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-18.html" class="text-slate-800 hover:text-brand-primary">Sala de atención sin climatización en una reunión con un cliente</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Reclamo/Queja</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-08-06</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-12.html" class="font-mono text-brand-primary hover:underline">REC-2026-002</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-12.html" class="text-slate-800 hover:text-brand-primary">Demora en la entrega de un pedido</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Reclamo/Queja</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-07-04</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-6.html" class="font-mono text-brand-primary hover:underline">REC-2026-001</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-6.html" class="text-slate-800 hover:text-brand-primary">Cobro duplicado de una factura</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Reclamo/Queja</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-05-30</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-33.html" class="font-mono text-brand-primary hover:underline">ODM-2026-005</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-33.html" class="text-slate-800 hover:text-brand-primary">Encuesta de satisfacción digital al cierre de cada servicio</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">Oportunidad de mejora</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En ejecución</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-07</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-29.html" class="font-mono text-brand-primary hover:underline">ODM-2026-004</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-29.html" class="text-slate-800 hover:text-brand-primary">Código QR en equipos para ver su historial</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">Oportunidad de mejora</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-orange-600 text-white">Implementado (en observación)</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-23</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-20.html" class="font-mono text-brand-primary hover:underline">ODM-2026-003</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-20.html" class="text-slate-800 hover:text-brand-primary">Estandarizar el formato de actas de reunión</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Oportunidad de mejora</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-08-14</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-11.html" class="font-mono text-brand-primary hover:underline">ODM-2026-002</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-11.html" class="text-slate-800 hover:text-brand-primary">Digitalizar las planillas de control de entregas</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">Oportunidad de mejora</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-06-29</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-4.html" class="font-mono text-brand-primary hover:underline">ODM-2026-001</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-4.html" class="text-slate-800 hover:text-brand-primary">Tablero visual de pedidos pendientes</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Oportunidad de mejora</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-05-20</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-47.html" class="font-mono text-brand-primary hover:underline">OBS-2026-008</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-47.html" class="text-slate-800 hover:text-brand-primary">Sugerencia de cambiar la música de la sala de espera</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-slate-600 text-white">Descartado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-22</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-46.html" class="font-mono text-brand-primary hover:underline">OBS-2026-007</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-46.html" class="text-slate-800 hover:text-brand-primary">Comentario sobre el color de los uniformes</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-slate-600 text-white">Descartado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-07</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-44.html" class="font-mono text-brand-primary hover:underline">OBS-2026-006</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-44.html" class="text-slate-800 hover:text-brand-primary">Puerta de sala con cierre defectuoso</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-slate-600 text-white">Registrado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-11-05</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-40.html" class="font-mono text-brand-primary hover:underline">OBS-2026-005</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-40.html" class="text-slate-800 hover:text-brand-primary">Estantería del archivo sin rotular</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">Clasificado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-28</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-34.html" class="font-mono text-brand-primary hover:underline">OBS-2026-004</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-34.html" class="text-slate-800 hover:text-brand-primary">Iluminación insuficiente en el sector de empaque</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En ejecución</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-10</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-22.html" class="font-mono text-brand-primary hover:underline">OBS-2026-003</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-22.html" class="text-slate-800 hover:text-brand-primary">Cartelería de salidas de emergencia poco visible</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-08-22</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-15.html" class="font-mono text-brand-primary hover:underline">OBS-2026-002</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-15.html" class="text-slate-800 hover:text-brand-primary">Herramientas sin identificar en el depósito</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-07-19</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-8.html" class="font-mono text-brand-primary hover:underline">OBS-2026-001</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-8.html" class="text-slate-800 hover:text-brand-primary">Señalización de pasillos parcialmente despintada</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">Observación</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-06-11</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-45.html" class="font-mono text-brand-primary hover:underline">NC-2026-028</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-45.html" class="text-slate-800 hover:text-brand-primary">Planilla de limpieza sin firma de supervisión</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-red-700 text-white">Reabierto</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-08-03</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-43.html" class="font-mono text-brand-primary hover:underline">NC-2026-027</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-43.html" class="text-slate-800 hover:text-brand-primary">Parte diario de producción sin hora de finalización</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-slate-600 text-white">Registrado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-11-04</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-42.html" class="font-mono text-brand-primary hover:underline">NC-2026-026</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-42.html" class="text-slate-800 hover:text-brand-primary">Extintor sin precinto de seguridad</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-slate-600 text-white">Registrado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-11-03</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-41.html" class="font-mono text-brand-primary hover:underline">NC-2026-025</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-41.html" class="text-slate-800 hover:text-brand-primary">Plan de mantenimiento con fecha de revisión vencida</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">Clasificado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-29</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-39.html" class="font-mono text-brand-primary hover:underline">NC-2026-024</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-39.html" class="text-slate-800 hover:text-brand-primary">Capacitación de inducción sin evaluación final</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">Clasificado</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-26</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-38.html" class="font-mono text-brand-primary hover:underline">NC-2026-023</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-38.html" class="text-slate-800 hover:text-brand-primary">Código de inventario duplicado en herramientas</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En análisis</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-23</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-36.html" class="font-mono text-brand-primary hover:underline">NC-2026-022</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-36.html" class="text-slate-800 hover:text-brand-primary">Registro de temperatura del depósito incompleto</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En análisis</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-18</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-35.html" class="font-mono text-brand-primary hover:underline">NC-2026-021</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-35.html" class="text-slate-800 hover:text-brand-primary">Actas de entrega sin sello de la empresa</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En análisis</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-15</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-31.html" class="font-mono text-brand-primary hover:underline">NC-2026-020</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-31.html" class="text-slate-800 hover:text-brand-primary">Material de capacitación sin control de versiones</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En ejecución</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-10-01</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-30.html" class="font-mono text-brand-primary hover:underline">NC-2026-019</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-30.html" class="text-slate-800 hover:text-brand-primary">Documentos digitales guardados sin respaldo</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-brand-primary text-white">En ejecución</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-27</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-28.html" class="font-mono text-brand-primary hover:underline">NC-2026-018</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-28.html" class="text-slate-800 hover:text-brand-primary">Orden de trabajo sin firma de aprobación</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-orange-600 text-white">Implementado (en observación)</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-20</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-27.html" class="font-mono text-brand-primary hover:underline">NC-2026-017</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-27.html" class="text-slate-800 hover:text-brand-primary">Plan de emergencias sin simulacro anual</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-orange-600 text-white">Implementado (en observación)</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-15</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-25.html" class="font-mono text-brand-primary hover:underline">NC-2026-016</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-25.html" class="text-slate-800 hover:text-brand-primary">Registro de capacitaciones con campos incompletos</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-orange-600 text-white">Implementado (en observación)</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-07</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-24.html" class="font-mono text-brand-primary hover:underline">NC-2026-015</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-24.html" class="text-slate-800 hover:text-brand-primary">Instrumento de medición sin identificación de estado</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-09-01</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-23.html" class="font-mono text-brand-primary hover:underline">NC-2026-014</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-23.html" class="text-slate-800 hover:text-brand-primary">Registro de novedades sin cierre de turno</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-08-28</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-21.html" class="font-mono text-brand-primary hover:underline">NC-2026-013</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-21.html" class="text-slate-800 hover:text-brand-primary">Proveedor evaluado fuera de término</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-08-18</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-19.html" class="font-mono text-brand-primary hover:underline">NC-2026-012</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-19.html" class="text-slate-800 hover:text-brand-primary">Equipos de protección sin inspección documentada</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-08-10</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-17.html" class="font-mono text-brand-primary hover:underline">NC-2026-011</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-17.html" class="text-slate-800 hover:text-brand-primary">Copia impresa de un procedimiento con revisión anterior</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-07-31</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-16.html" class="font-mono text-brand-primary hover:underline">NC-2026-010</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-16.html" class="text-slate-800 hover:text-brand-primary">Empleado sin capacitación de refresco registrada</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-07-25</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-14.html" class="font-mono text-brand-primary hover:underline">NC-2026-009</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-14.html" class="text-slate-800 hover:text-brand-primary">Diferencia entre el stock físico y el sistema</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-07-14</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-13.html" class="font-mono text-brand-primary hover:underline">NC-2026-008</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-13.html" class="text-slate-800 hover:text-brand-primary">Checklist de inspección sin ítem de verificación de etiquetas</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-07-09</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-10.html" class="font-mono text-brand-primary hover:underline">NC-2026-007</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-10.html" class="text-slate-800 hover:text-brand-primary">Ausencia de acta en la reunión mensual de seguridad</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-06-24</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-9.html" class="font-mono text-brand-primary hover:underline">NC-2026-006</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-9.html" class="text-slate-800 hover:text-brand-primary">Falta de registro de calibración de una balanza</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-06-19</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-7.html" class="font-mono text-brand-primary hover:underline">NC-2026-005</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-7.html" class="text-slate-800 hover:text-brand-primary">Procedimiento de despacho sin versión controlada</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-06-07</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-5.html" class="font-mono text-brand-primary hover:underline">NC-2026-004</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-5.html" class="text-slate-800 hover:text-brand-primary">Legajo de empleado sin examen médico vigente</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-05-25</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-3.html" class="font-mono text-brand-primary hover:underline">NC-2026-003</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-3.html" class="text-slate-800 hover:text-brand-primary">Botiquín de planta incompleto</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-05-12</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-2.html" class="font-mono text-brand-primary hover:underline">NC-2026-002</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-2.html" class="text-slate-800 hover:text-brand-primary">Registros de producción sin firma del responsable</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Chile</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-05-05</td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3">
+            <a href="hallazgo-1.html" class="font-mono text-brand-primary hover:underline">NC-2026-001</a>
+          </td>
+          <td class="px-4 py-3">
+            <a href="hallazgo-1.html" class="text-slate-800 hover:text-brand-primary">Extintor con carga vencida en el depósito</a>
+          </td>
+          <td class="px-4 py-3 text-slate-600">Argentina</td>
+          <td class="px-4 py-3 text-slate-600">No conformidad</td>
+          <td class="px-4 py-3">
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </td>
+          <td class="px-4 py-3"><span class="text-xs font-medium rounded-full px-2 py-0.5 whitespace-nowrap bg-green-700 text-white">Cerrado - eficaz</span></td>
+          <td class="px-4 py-3 text-slate-500">2026-04-30</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</section>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1089 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — Empresa Demo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23004AAD%27/%3E%3Cpath d=%27M9 17l5 5 9-12%27 stroke=%27white%27 stroke-width=%274%27 fill=%27none%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/tailwind.css">
+  
+  <script>
+    // Sidebar colapsable: el estado vive en <html> (no lo pisa hx-boost) y en localStorage.
+    (function () {
+      function apply() {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        document.documentElement.classList.toggle('sidebar-collapsed', c);
+      }
+      window.toggleSidebar = function () {
+        var c = localStorage.getItem('sidebarCollapsed') === '1';
+        localStorage.setItem('sidebarCollapsed', c ? '0' : '1');
+        apply();
+      };
+      apply(); // aplicar antes de pintar para evitar parpadeo
+      document.addEventListener('DOMContentLoaded', apply);
+    })();
+  </script>
+<link rel="stylesheet" href="static/demo.css"><script src="static/demo.js" defer></script></head>
+
+<body data-demo="1" class="bg-slate-50 text-slate-800 min-h-screen font-sans">
+  <div class="flex min-h-screen">
+
+    
+    <aside id="app-sidebar" class="hidden md:flex md:flex-col w-60 bg-brand-primary text-white shrink-0">
+      <div class="sidebar-header px-4 py-4 border-b border-white/10 flex items-center justify-between gap-2">
+        <a href="inicio.html" class="min-w-0">
+          <span class="sgh-mark sidebar-logo-full h-12 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span>
+        </a>
+        <button type="button" onclick="toggleSidebar()" aria-label="Colapsar o expandir el menú"
+                class="sidebar-toggle shrink-0 text-white/70 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 px-3 py-4 space-y-1 text-sm font-medium">
+        <a href="inicio.html" title="Inicio" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h4v-6h6v6h4V9.5"/></svg>
+          <span class="sidebar-label">Inicio</span>
+        </a>
+        <a href="dashboard.html" title="Dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition bg-white/15">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="hallazgos.html" title="Hallazgos" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-white/80 hover:bg-white/10 hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M9 4h6M9 4a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v0a2 2 0 0 0-2-2M7 6H5v14h14V6h-2M9 12h6M9 16h4"/></svg>
+          <span class="sidebar-label">Hallazgos</span>
+        </a>
+        
+      </nav>
+      <div class="sidebar-logout px-3 py-4 border-t border-white/10 space-y-2">
+        <div class="sidebar-profile px-3 text-xs text-white/60 truncate" title="calidad.demo@example.test">
+          <span class="sidebar-label">Valentina Ríos</span>
+        </div>
+        <form method="post" action="#" data-disabled="1">
+          
+          <button type="submit" title="Salir" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 shrink-0"><path d="M15 12H3m0 0 4-4m-4 4 4 4M13 4h6v16h-6"/></svg>
+            <span class="sidebar-label">Salir</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    
+    <div class="flex-1 flex flex-col min-w-0">
+      
+      <header class="md:hidden bg-brand-primary text-white flex items-center justify-between px-4 h-14">
+        <a href="inicio.html"><span class="sgh-mark h-8 w-auto flex items-center text-white font-bold tracking-widest text-xl">SGH</span></a>
+        <nav class="flex items-center gap-1 text-sm font-medium">
+          <a href="inicio.html" class="px-2 py-1.5 rounded hover:bg-white/10">Inicio</a>
+          <a href="dashboard.html" class="px-2 py-1.5 rounded bg-white/15">Dashboard</a>
+          <a href="hallazgos.html" class="px-2 py-1.5 rounded hover:bg-white/10">Hallazgos</a>
+          
+          <form method="post" action="#" data-disabled="1" class="inline">
+            
+            <button type="submit" class="px-2 py-1.5 rounded hover:bg-white/10">Salir</button>
+          </form>
+        </nav>
+      </header>
+
+      <main class="flex-1 w-full max-w-6xl mx-auto px-4 md:px-8 py-8">
+        
+        
+
+<div class="mb-6">
+  <h2 class="text-2xl font-bold text-brand-indigo">Dashboard</h2>
+  <p class="text-slate-500">Empresa Demo</p>
+</div>
+
+
+<section class="bg-slate-50 rounded-xl border border-slate-200 p-4 mb-10">
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+    <p class="text-[11px] text-slate-400">Indicadores de <strong class="font-semibold text-slate-500">Todos los años · Ambas sedes</strong> · según la fecha en que ocurre cada hecho (cierre, evaluación, implementación) · las metas se evalúan en la Revisión por la Dirección</p>
+    <form method="get" class="flex items-center gap-3">
+      <input type="hidden" name="k_anio" value="">
+      <input type="hidden" name="k_sede" value="">
+      <label for="anio" class="text-xs font-medium text-slate-500">Año</label>
+      <select id="anio" name="anio"
+              class="text-sm border border-slate-300 rounded-lg px-2 py-1 bg-white">
+        <option value="2026">2026</option>
+        <option value="todos" selected>Todos los años</option>
+      </select>
+      <label for="sede" class="text-xs font-medium text-slate-500">Sede</label>
+      <select id="sede" name="sede"
+              class="text-sm border border-slate-300 rounded-lg px-2 py-1 bg-white">
+        <option value="">Todas</option>
+        <option value="argentina">Argentina</option><option value="chile">Chile</option>
+      </select>
+    </form>
+  </div>
+  
+<div class="overflow-x-auto mb-6">
+  <section class="grid grid-cols-5 gap-3 min-w-[620px]">
+    
+    <div class="bg-white rounded-lg border border-slate-200 px-2 py-3 flex flex-col items-center text-center">
+      <svg viewBox="0 0 36 36" class="w-16 h-16 shrink-0">
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#e5e7eb" stroke-width="3.6"/>
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#dc2626" stroke-width="3.6"
+                stroke-linecap="round" stroke-dasharray="53.3 100" transform="rotate(-90 18 18)"/>
+        <text x="18" y="20.5" text-anchor="middle" font-size="9" font-weight="700" fill="#dc2626">53%</text>
+      </svg>
+      <p class="mt-2 text-[11px] text-slate-600 leading-tight line-clamp-3 min-h-[39px]" title="Hallazgos cerrados">Hallazgos cerrados</p>
+      <p class="text-[10px] text-slate-400 leading-tight">Meta ≥ 85%</p>
+    </div>
+    
+    <div class="bg-white rounded-lg border border-slate-200 px-2 py-3 flex flex-col items-center text-center">
+      <svg viewBox="0 0 36 36" class="w-16 h-16 shrink-0">
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#e5e7eb" stroke-width="3.6"/>
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#16a34a" stroke-width="3.6"
+                stroke-linecap="round" stroke-dasharray="96.7 100" transform="rotate(-90 18 18)"/>
+        <text x="18" y="20.5" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">97%</text>
+      </svg>
+      <p class="mt-2 text-[11px] text-slate-600 leading-tight line-clamp-3 min-h-[39px]" title="Acciones en plazo comprometido">Acciones en plazo comprometido</p>
+      <p class="text-[10px] text-slate-400 leading-tight">Meta ≥ 90%</p>
+    </div>
+    
+    <div class="bg-white rounded-lg border border-slate-200 px-2 py-3 flex flex-col items-center text-center">
+      <svg viewBox="0 0 36 36" class="w-16 h-16 shrink-0">
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#e5e7eb" stroke-width="3.6"/>
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#16a34a" stroke-width="3.6"
+                stroke-linecap="round" stroke-dasharray="100.0 100" transform="rotate(-90 18 18)"/>
+        <text x="18" y="20.5" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">100%</text>
+      </svg>
+      <p class="mt-2 text-[11px] text-slate-600 leading-tight line-clamp-3 min-h-[39px]" title="Cierre administrativo en plazo">Cierre administrativo en plazo</p>
+      <p class="text-[10px] text-slate-400 leading-tight">Meta ≥ 90%</p>
+    </div>
+    
+    <div class="bg-white rounded-lg border border-slate-200 px-2 py-3 flex flex-col items-center text-center">
+      <svg viewBox="0 0 36 36" class="w-16 h-16 shrink-0">
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#e5e7eb" stroke-width="3.6"/>
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#16a34a" stroke-width="3.6"
+                stroke-linecap="round" stroke-dasharray="96.0 100" transform="rotate(-90 18 18)"/>
+        <text x="18" y="20.5" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">96%</text>
+      </svg>
+      <p class="mt-2 text-[11px] text-slate-600 leading-tight line-clamp-3 min-h-[39px]" title="Acciones eficaces">Acciones eficaces</p>
+      <p class="text-[10px] text-slate-400 leading-tight">Meta ≥ 80%</p>
+    </div>
+    
+    <div class="bg-white rounded-lg border border-slate-200 px-2 py-3 flex flex-col items-center text-center">
+      <svg viewBox="0 0 36 36" class="w-16 h-16 shrink-0">
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#e5e7eb" stroke-width="3.6"/>
+        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#16a34a" stroke-width="3.6"
+                stroke-linecap="round" stroke-dasharray="42.3 100" transform="rotate(-90 18 18)"/>
+        <text x="18" y="20.5" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">12.7d</text>
+      </svg>
+      <p class="mt-2 text-[11px] text-slate-600 leading-tight line-clamp-3 min-h-[39px]" title="Resolución de reclamos">Resolución de reclamos</p>
+      <p class="text-[10px] text-slate-400 leading-tight">Meta ≤ 30 d. háb.</p>
+    </div>
+    
+  </section>
+</div>
+
+</section>
+
+
+<div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+  <h3 class="text-sm font-semibold text-brand-indigo">Hallazgos por estado <span class="font-normal text-slate-400">· Todos los años · Ambas sedes</span></h3>
+  <form method="get" class="flex items-center gap-3">
+    <input type="hidden" name="anio" value="todos">
+    <input type="hidden" name="sede" value="">
+    <label for="k_anio" class="text-xs font-medium text-slate-500">Año</label>
+    <select id="k_anio" name="k_anio"
+            class="text-sm border border-slate-300 rounded-lg px-2 py-1 bg-white">
+      <option value="" selected>Todos los años</option>
+      <option value="2026">2026</option>
+    </select>
+    <label for="k_sede" class="text-xs font-medium text-slate-500">Sede</label>
+    <select id="k_sede" name="k_sede"
+            class="text-sm border border-slate-300 rounded-lg px-2 py-1 bg-white">
+      <option value="">Todas</option>
+      <option value="argentina">Argentina</option><option value="chile">Chile</option>
+    </select>
+  </form>
+</div>
+<div class="overflow-x-auto pb-4">
+  <div class="flex gap-4 min-w-max">
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">Registrado</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">3</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-006" data-title="Puerta de sala con cierre defectuoso" data-desc="La puerta de la sala 3 no cierra por completo."
+           data-severity="low" data-severity-label="Baja"
+           data-status="registered" data-status-label="Registrado"
+           data-meta="Chile · Observación · Administración"
+           data-url="hallazgo-44.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-006</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Puerta de sala con cierre defectuoso</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-027" data-title="Parte diario de producción sin hora de finalización" data-desc="El parte diario no registra la hora de finalización de cada turno."
+           data-severity="medium" data-severity-label="Media"
+           data-status="registered" data-status-label="Registrado"
+           data-meta="Argentina · No conformidad · Logística"
+           data-url="hallazgo-43.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-027</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Parte diario de producción sin hora de finalización</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-026" data-title="Extintor sin precinto de seguridad" data-desc="Se encontró un extintor con el precinto de seguridad roto."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="registered" data-status-label="Registrado"
+           data-meta="Chile · No conformidad · Calidad"
+           data-url="hallazgo-42.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-026</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Extintor sin precinto de seguridad</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">Clasificado</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">3</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-005" data-title="Estantería del archivo sin rotular" data-desc="Las estanterías del archivo no tienen rótulos por año ni tipo de documento."
+           data-severity="low" data-severity-label="Baja"
+           data-status="triaged" data-status-label="Clasificado"
+           data-meta="Chile · Observación · Atención al cliente"
+           data-url="hallazgo-40.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-005</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Estantería del archivo sin rotular</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-025" data-title="Plan de mantenimiento con fecha de revisión vencida" data-desc="El plan anual de mantenimiento mantiene una fecha de revisión ya vencida."
+           data-severity="medium" data-severity-label="Media"
+           data-status="triaged" data-status-label="Clasificado"
+           data-meta="Argentina · No conformidad · Operaciones"
+           data-url="hallazgo-41.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-025</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Plan de mantenimiento con fecha de revisión vencida</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-024" data-title="Capacitación de inducción sin evaluación final" data-desc="La inducción del personal nuevo se dictó sin evaluación de cierre."
+           data-severity="medium" data-severity-label="Media"
+           data-status="triaged" data-status-label="Clasificado"
+           data-meta="Argentina · No conformidad · Administración"
+           data-url="hallazgo-39.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-024</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Capacitación de inducción sin evaluación final</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">En análisis</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">4</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="REC-2026-006" data-title="Cambio de fecha comunicado sin anticipación" data-desc="Un cliente reclama que el cambio de fecha de entrega se informó el mismo día."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="analyzing" data-status-label="En análisis"
+           data-meta="Argentina · Reclamo/Queja · Calidad"
+           data-url="hallazgo-37.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">REC-2026-006</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Cambio de fecha comunicado sin anticipación</p>
+          <p class="mt-1 text-xs text-slate-400">Reclamo/Queja</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-023" data-title="Código de inventario duplicado en herramientas" data-desc="Dos herramientas distintas figuran con el mismo código de inventario."
+           data-severity="medium" data-severity-label="Media"
+           data-status="analyzing" data-status-label="En análisis"
+           data-meta="Chile · No conformidad · Logística"
+           data-url="hallazgo-38.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-023</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Código de inventario duplicado en herramientas</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-022" data-title="Registro de temperatura del depósito incompleto" data-desc="El depósito de insumos sensibles tiene lecturas de temperatura faltantes."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="analyzing" data-status-label="En análisis"
+           data-meta="Chile · No conformidad · Operaciones"
+           data-url="hallazgo-36.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-022</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Registro de temperatura del depósito incompleto</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-021" data-title="Actas de entrega sin sello de la empresa" data-desc="Se emitieron actas de entrega sin el sello institucional."
+           data-severity="medium" data-severity-label="Media"
+           data-status="analyzing" data-status-label="En análisis"
+           data-meta="Argentina · No conformidad · Atención al cliente"
+           data-url="hallazgo-35.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-021</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Actas de entrega sin sello de la empresa</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">En ejecución</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">5</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="REC-2026-005" data-title="Factura emitida con datos fiscales erróneos" data-desc="Un cliente corporativo reclama una factura con razón social incorrecta."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="in_progress" data-status-label="En ejecución"
+           data-meta="Chile · Reclamo/Queja · Calidad"
+           data-url="hallazgo-32.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">REC-2026-005</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Factura emitida con datos fiscales erróneos</p>
+          <p class="mt-1 text-xs text-slate-400">Reclamo/Queja</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="ODM-2026-005" data-title="Encuesta de satisfacción digital al cierre de cada servicio" data-desc="Reemplazar la encuesta en papel por un formulario digital al cierre de cada servicio."
+           data-severity="low" data-severity-label="Baja"
+           data-status="in_progress" data-status-label="En ejecución"
+           data-meta="Argentina · Oportunidad de mejora · Logística"
+           data-url="hallazgo-33.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">ODM-2026-005</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Encuesta de satisfacción digital al cierre de cada servicio</p>
+          <p class="mt-1 text-xs text-slate-400">Oportunidad de mejora</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-004" data-title="Iluminación insuficiente en el sector de empaque" data-desc="El sector de empaque tiene iluminación por debajo de lo recomendado."
+           data-severity="low" data-severity-label="Baja"
+           data-status="in_progress" data-status-label="En ejecución"
+           data-meta="Chile · Observación · Administración"
+           data-url="hallazgo-34.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-004</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Iluminación insuficiente en el sector de empaque</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-020" data-title="Material de capacitación sin control de versiones" data-desc="Dos grupos usaron versiones distintas del mismo material de capacitación."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="in_progress" data-status-label="En ejecución"
+           data-meta="Argentina · No conformidad · Operaciones"
+           data-url="hallazgo-31.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-020</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Material de capacitación sin control de versiones</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-019" data-title="Documentos digitales guardados sin respaldo" data-desc="Los documentos de calidad se almacenan en un único equipo sin respaldo."
+           data-severity="medium" data-severity-label="Media"
+           data-status="in_progress" data-status-label="En ejecución"
+           data-meta="Chile · No conformidad · Atención al cliente"
+           data-url="hallazgo-30.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-019</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Documentos digitales guardados sin respaldo</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">Implementado (en observación)</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">5</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="REC-2026-004" data-title="Respuesta tardía a una consulta comercial" data-desc="Un cliente potencial reclama haber recibido respuesta recién a los diez días."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="implemented" data-status-label="Implementado (en observación)"
+           data-meta="Chile · Reclamo/Queja · Operaciones"
+           data-url="hallazgo-26.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">REC-2026-004</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Respuesta tardía a una consulta comercial</p>
+          <p class="mt-1 text-xs text-slate-400">Reclamo/Queja</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="ODM-2026-004" data-title="Código QR en equipos para ver su historial" data-desc="Colocar un código QR en cada equipo con acceso a su historial de mantenimiento."
+           data-severity="low" data-severity-label="Baja"
+           data-status="implemented" data-status-label="Implementado (en observación)"
+           data-meta="Argentina · Oportunidad de mejora · Administración"
+           data-url="hallazgo-29.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">ODM-2026-004</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Código QR en equipos para ver su historial</p>
+          <p class="mt-1 text-xs text-slate-400">Oportunidad de mejora</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-018" data-title="Orden de trabajo sin firma de aprobación" data-desc="Una orden de trabajo se cerró sin la firma de aprobación correspondiente."
+           data-severity="medium" data-severity-label="Media"
+           data-status="implemented" data-status-label="Implementado (en observación)"
+           data-meta="Chile · No conformidad · Logística"
+           data-url="hallazgo-28.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-018</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Orden de trabajo sin firma de aprobación</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-017" data-title="Plan de emergencias sin simulacro anual" data-desc="No hay constancia del simulacro anual previsto en el plan de emergencias."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="implemented" data-status-label="Implementado (en observación)"
+           data-meta="Argentina · No conformidad · Calidad"
+           data-url="hallazgo-27.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-017</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Plan de emergencias sin simulacro anual</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-016" data-title="Registro de capacitaciones con campos incompletos" data-desc="Varias capacitaciones del trimestre no registran duración ni evaluación."
+           data-severity="medium" data-severity-label="Media"
+           data-status="implemented" data-status-label="Implementado (en observación)"
+           data-meta="Argentina · No conformidad · Atención al cliente"
+           data-url="hallazgo-25.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-016</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Registro de capacitaciones con campos incompletos</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">Cerrado - eficaz</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">24</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="REC-2026-003" data-title="Sala de atención sin climatización en una reunión con un cliente" data-desc="Un cliente reclama que la sala de atención no tenía climatización operativa."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · Reclamo/Queja · Logística"
+           data-url="hallazgo-18.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">REC-2026-003</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Sala de atención sin climatización en una reunión con un cliente</p>
+          <p class="mt-1 text-xs text-slate-400">Reclamo/Queja</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="REC-2026-002" data-title="Demora en la entrega de un pedido" data-desc="Un cliente reclama que su pedido llegó con tres semanas de demora."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · Reclamo/Queja · Calidad"
+           data-url="hallazgo-12.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">REC-2026-002</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Demora en la entrega de un pedido</p>
+          <p class="mt-1 text-xs text-slate-400">Reclamo/Queja</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="REC-2026-001" data-title="Cobro duplicado de una factura" data-desc="Un cliente informa que se le cobró dos veces la misma factura."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · Reclamo/Queja · Operaciones"
+           data-url="hallazgo-6.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">REC-2026-001</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Cobro duplicado de una factura</p>
+          <p class="mt-1 text-xs text-slate-400">Reclamo/Queja</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="ODM-2026-003" data-title="Estandarizar el formato de actas de reunión" data-desc="Unificar el formato de actas entre sedes para facilitar el seguimiento de compromisos."
+           data-severity="low" data-severity-label="Baja"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · Oportunidad de mejora · Atención al cliente"
+           data-url="hallazgo-20.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">ODM-2026-003</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Estandarizar el formato de actas de reunión</p>
+          <p class="mt-1 text-xs text-slate-400">Oportunidad de mejora</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="ODM-2026-002" data-title="Digitalizar las planillas de control de entregas" data-desc="Reemplazar las planillas en papel por un registro digital de entregas."
+           data-severity="low" data-severity-label="Baja"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · Oportunidad de mejora · Operaciones"
+           data-url="hallazgo-11.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">ODM-2026-002</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Digitalizar las planillas de control de entregas</p>
+          <p class="mt-1 text-xs text-slate-400">Oportunidad de mejora</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="ODM-2026-001" data-title="Tablero visual de pedidos pendientes" data-desc="Propuesta de un tablero visual para coordinar los pedidos pendientes del día."
+           data-severity="low" data-severity-label="Baja"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · Oportunidad de mejora · Administración"
+           data-url="hallazgo-4.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">ODM-2026-001</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Tablero visual de pedidos pendientes</p>
+          <p class="mt-1 text-xs text-slate-400">Oportunidad de mejora</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-003" data-title="Cartelería de salidas de emergencia poco visible" data-desc="Dos carteles de salida de emergencia quedan tapados por mobiliario."
+           data-severity="low" data-severity-label="Baja"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · Observación · Calidad"
+           data-url="hallazgo-22.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-003</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Cartelería de salidas de emergencia poco visible</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-002" data-title="Herramientas sin identificar en el depósito" data-desc="Se observó herramental sin identificar en el depósito de mantenimiento."
+           data-severity="low" data-severity-label="Baja"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · Observación · Atención al cliente"
+           data-url="hallazgo-15.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-002</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Herramientas sin identificar en el depósito</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-001" data-title="Señalización de pasillos parcialmente despintada" data-desc="La señalización de los pasillos presenta desgaste visible en dos sectores."
+           data-severity="low" data-severity-label="Baja"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · Observación · Logística"
+           data-url="hallazgo-8.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-001</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Señalización de pasillos parcialmente despintada</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-015" data-title="Instrumento de medición sin identificación de estado" data-desc="Un calibre no tenía etiqueta con la fecha de próxima calibración."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · No conformidad · Administración"
+           data-url="hallazgo-24.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-015</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Instrumento de medición sin identificación de estado</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-014" data-title="Registro de novedades sin cierre de turno" data-desc="El registro de novedades no tenía el cierre de dos turnos."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Logística"
+           data-url="hallazgo-23.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-014</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Registro de novedades sin cierre de turno</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-013" data-title="Proveedor evaluado fuera de término" data-desc="La reevaluación anual de un proveedor crítico se hizo con tres meses de atraso."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Operaciones"
+           data-url="hallazgo-21.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-013</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Proveedor evaluado fuera de término</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-012" data-title="Equipos de protección sin inspección documentada" data-desc="Los equipos de protección del taller no tenían registro de inspección periódica."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Administración"
+           data-url="hallazgo-19.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-012</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Equipos de protección sin inspección documentada</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-011" data-title="Copia impresa de un procedimiento con revisión anterior" data-desc="Un ejemplar impreso en el sector conservaba una hoja de una revisión anterior."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Calidad"
+           data-url="hallazgo-17.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-011</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Copia impresa de un procedimiento con revisión anterior</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-010" data-title="Empleado sin capacitación de refresco registrada" data-desc="No consta el refresco anual de un empleado en su legajo."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · No conformidad · Operaciones"
+           data-url="hallazgo-16.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-010</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Empleado sin capacitación de refresco registrada</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-009" data-title="Diferencia entre el stock físico y el sistema" data-desc="El stock contado en depósito difiere del registrado en el sistema de gestión."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · No conformidad · Administración"
+           data-url="hallazgo-14.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-009</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Diferencia entre el stock físico y el sistema</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-008" data-title="Checklist de inspección sin ítem de verificación de etiquetas" data-desc="El checklist de inspección no incluía la verificación de etiquetas."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Logística"
+           data-url="hallazgo-13.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-008</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Checklist de inspección sin ítem de verificación de etiquetas</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-007" data-title="Ausencia de acta en la reunión mensual de seguridad" data-desc="La reunión mensual de seguridad se realizó sin acta firmada."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · No conformidad · Atención al cliente"
+           data-url="hallazgo-10.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-007</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Ausencia de acta en la reunión mensual de seguridad</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-006" data-title="Falta de registro de calibración de una balanza" data-desc="No se encontró el registro de calibración vigente de una balanza de planta."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Administración"
+           data-url="hallazgo-9.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-006</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Falta de registro de calibración de una balanza</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-005" data-title="Procedimiento de despacho sin versión controlada" data-desc="El procedimiento de despacho circulaba en dos versiones sin control de revisión."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Calidad"
+           data-url="hallazgo-7.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-005</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Procedimiento de despacho sin versión controlada</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-004" data-title="Legajo de empleado sin examen médico vigente" data-desc="Se halló un legajo con el examen médico vencido al momento de la auditoría."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Atención al cliente"
+           data-url="hallazgo-5.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-004</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Legajo de empleado sin examen médico vigente</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-003" data-title="Botiquín de planta incompleto" data-desc="El botiquín no contenía los elementos exigidos por el listado de control."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Logística"
+           data-url="hallazgo-3.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-003</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Botiquín de planta incompleto</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-002" data-title="Registros de producción sin firma del responsable" data-desc="Tres registros del mes figuran sin la firma del responsable del turno."
+           data-severity="medium" data-severity-label="Media"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Chile · No conformidad · Calidad"
+           data-url="hallazgo-2.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-002</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Registros de producción sin firma del responsable</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-001" data-title="Extintor con carga vencida en el depósito" data-desc="En la ronda de seguridad se detectó un extintor con la carga vencida hace dos meses."
+           data-severity="critical" data-severity-label="Crítica"
+           data-status="closed_effective" data-status-label="Cerrado - eficaz"
+           data-meta="Argentina · No conformidad · Operaciones"
+           data-url="hallazgo-1.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-001</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-700 text-white">Crítica</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Extintor con carga vencida en el depósito</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">Reabierto</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">1</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="NC-2026-028" data-title="Planilla de limpieza sin firma de supervisión" data-desc="La planilla de limpieza se reabrió por recurrencia del desvío en el control posterior."
+           data-severity="medium" data-severity-label="Media"
+           data-status="reopened" data-status-label="Reabierto"
+           data-meta="Argentina · No conformidad · Atención al cliente"
+           data-url="hallazgo-45.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">NC-2026-028</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-orange-600 text-white">Media</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Planilla de limpieza sin firma de supervisión</p>
+          <p class="mt-1 text-xs text-slate-400">No conformidad</p>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="w-64 shrink-0 bg-slate-100 rounded-xl">
+      <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-200">
+        <span class="text-xs font-semibold text-slate-600 uppercase tracking-wide">Descartado</span>
+        <span class="text-xs font-medium text-white bg-brand-indigo rounded-full px-2 py-0.5">2</span>
+      </div>
+      <div class="p-2 space-y-2 min-h-[60px]">
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-008" data-title="Sugerencia de cambiar la música de la sala de espera" data-desc="Preferencia personal, fuera del alcance del sistema de gestión."
+           data-severity="low" data-severity-label="Baja"
+           data-status="discarded" data-status-label="Descartado"
+           data-meta="Argentina · Observación · Calidad"
+           data-url="hallazgo-47.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-008</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Sugerencia de cambiar la música de la sala de espera</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+        
+        <button type="button" onclick="abrirResumen(this)"
+           data-code="OBS-2026-007" data-title="Comentario sobre el color de los uniformes" data-desc="Comentario informal sin relación con un requisito del sistema."
+           data-severity="low" data-severity-label="Baja"
+           data-status="discarded" data-status-label="Descartado"
+           data-meta="Chile · Observación · Operaciones"
+           data-url="hallazgo-46.html"
+           class="block w-full text-left bg-white rounded-lg border border-slate-200 p-3 shadow-sm hover:border-brand-sky hover:shadow transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-slate-500">OBS-2026-007</span>
+            <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-slate-600 text-white">Baja</span>
+          </div>
+          <p class="mt-1.5 text-sm text-slate-800 leading-snug line-clamp-2 break-words">Comentario sobre el color de los uniformes</p>
+          <p class="mt-1 text-xs text-slate-400">Observación</p>
+        </button>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+<dialog id="dlg-resumen" class="rounded-xl border border-slate-200 shadow-xl p-0 w-[92vw] max-w-lg backdrop:bg-slate-900/30">
+  <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+    <h3 id="rs-code" class="text-sm font-semibold font-mono text-brand-indigo"></h3>
+    <button type="button" onclick="this.closest('dialog').close()" class="text-slate-400 hover:text-slate-700 text-lg leading-none">&times;</button>
+  </div>
+  <div class="p-5 space-y-3 text-sm">
+    <div class="flex items-center gap-2 flex-wrap">
+      <span id="rs-sev" class="text-xs font-medium rounded-full px-2.5 py-0.5"></span>
+      <span id="rs-status" class="text-xs font-medium rounded-full px-2.5 py-0.5"></span>
+    </div>
+    <p id="rs-title" class="font-semibold text-slate-800"></p>
+    <p id="rs-meta" class="text-xs text-slate-500"></p>
+    <div><p class="text-xs text-slate-500 mb-0.5">Descripción</p><p id="rs-desc" class="text-slate-700 whitespace-pre-wrap"></p></div>
+    <div class="pt-2"><a id="rs-url" href="#" class="inline-block bg-brand-primary text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-brand-indigo transition">Ir al hallazgo</a></div>
+  </div>
+</dialog>
+
+<script>
+  // Clases de color de los pills: mismas reglas que _sev_colors.html / _status_colors.html.
+  var SEV_COLORS = {critical: "bg-red-700 text-white", medium: "bg-orange-600 text-white"};
+  var STATUS_COLORS = {closed_effective: "bg-green-700 text-white", reopened: "bg-red-700 text-white",
+                       implemented: "bg-orange-600 text-white", registered: "bg-slate-600 text-white",
+                       discarded: "bg-slate-600 text-white"};
+  function abrirResumen(btn) {
+    var d = btn.dataset;
+    document.getElementById("rs-code").textContent = d.code;
+    var sev = document.getElementById("rs-sev");
+    sev.textContent = d.severityLabel;
+    sev.className = "text-xs font-medium rounded-full px-2.5 py-0.5 " + (SEV_COLORS[d.severity] || "bg-slate-600 text-white");
+    var st = document.getElementById("rs-status");
+    st.textContent = d.statusLabel;
+    st.className = "text-xs font-medium rounded-full px-2.5 py-0.5 " + (STATUS_COLORS[d.status] || "bg-brand-primary text-white");
+    document.getElementById("rs-title").textContent = d.title;
+    document.getElementById("rs-meta").textContent = d.meta;
+    document.getElementById("rs-desc").textContent = d.desc;
+    document.getElementById("rs-url").href = d.url;
+    document.getElementById("dlg-resumen").showModal();
+  }
+</script>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>
